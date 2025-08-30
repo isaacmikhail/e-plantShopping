@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeItem, updateQuantity } from './CartSlice';
@@ -10,7 +9,14 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
-    return cart.reduce((acc,item)=>acc+item.cost*item.quantity, 0);
+    let total=0;
+    cart.forEach(item=>{
+      const quantity=item.quantity;
+      const cost=parseFloat(item.cost.substring(1));
+      total+=cost*quantity;
+    })
+
+    return total;
   };
 
   const handleContinueShopping = (e) => {
@@ -37,7 +43,8 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
-    return item.cost * item.quantity;
+    const cost=parseFloat(item.cost.substring(1))
+    return cost * item.quantity;
 
   };
 
